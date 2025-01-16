@@ -36,6 +36,7 @@ const SEARCHES = [
 
 const FILE_DOWNLOADS = [
   'elete2.png'
+  'فضيحة الورع حمودي.Scr'
 ]
 
 const PHRASES = [
